@@ -27,8 +27,12 @@ class Auth with ChangeNotifier {
       if (responseData['status']) {
         login = true;
         String token = responseData['data']['token'];
+        String id = responseData['data']['id'].toString();
+        String username = responseData['data']['username'];
+        String email = responseData['data']['email'];
+        // String lastLogin = responseData['data']['lastLogin'];
         String loginStatus = 'success';
-        sharedPref(token, loginStatus);
+        sharedPref(token, loginStatus, id, username, email);
       } else {
         login = false;
         String message = responseData['message'];
@@ -39,10 +43,13 @@ class Auth with ChangeNotifier {
     }
   }
 
-  sharedPref(String token, status)async{
+  sharedPref(String token, status, id, username, email, )async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("token", token?? "");
     prefs.setString("loginStatus", status);
+    prefs.setString("id", id);
+    prefs.setString("username", username);
+    prefs.setString("email", email);
   }
 
 }

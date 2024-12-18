@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:vpn_mobile/Provider/Auth/Logout.dart';
 
 import '../../Commons/widgets.dart';
 import '../../main.dart';
@@ -15,6 +16,23 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  String name = "";
+  String email = "";
+
+  getPref()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      name = prefs.getString("username")!;
+      email = prefs.getString("email")!;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getPref();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,11 +68,11 @@ class _ProfileState extends State<Profile> {
               ],
             ),
             const SizedBox(height: 16),
-            Text('Irfan Priyadi Nurfauzi', style: GoogleFonts.poppins(
+            Text('$name', style: GoogleFonts.poppins(
                 textStyle: boldTextStyle(size: 18)
             )),
             const SizedBox(height: 8),
-            Text('+62 5694 1182 11', style: GoogleFonts.poppins(
+            Text('$email', style: GoogleFonts.poppins(
                 textStyle: secondaryTextStyle()
             )),
             const SizedBox(height: 16),
@@ -117,9 +135,10 @@ class _ProfileState extends State<Profile> {
                   textStyle: boldTextStyle()
               ),
               onTap: () {
-                showConfirmDialogCustom(context, onAccept: (c) {
-                  const LoginPage().launch(context, isNewTask: true);
-                }, dialogType: DialogType.CONFIRMATION);
+                Logout();
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) =>const LoginPage()));
+
               },
               trailing: Icon(Icons.arrow_forward_ios_rounded, size: 18, color: context.iconColor),
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:vpn_mobile/Provider/Config/getConfig.dart';
 import 'package:vpn_mobile/Provider/app_provider.dart';
 import 'Commons/AppStore.dart';
 import 'Commons/AppTheme.dart';
@@ -47,6 +48,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(
             value: Auth()
+        ),
+        ChangeNotifierProvider.value(
+            value: GetConfig()
         )
       ],
       child: ScreenUtilInit(
